@@ -82,6 +82,7 @@
 
         //some state information
         this.isShowing = false;
+        this.alwaysOpen = true;
         this.leftCalendar = {};
         this.rightCalendar = {};
 
@@ -332,7 +333,7 @@
 
                 // If the end of the range is before the minimum or the start of the range is
                 // after the maximum, don't display this range option at all.
-                if ((this.minDate && end.isBefore(this.minDate, this.timepicker ? 'minute' : 'day')) 
+                if ((this.minDate && end.isBefore(this.minDate, this.timepicker ? 'minute' : 'day'))
                   || (maxDate && start.isAfter(maxDate, this.timepicker ? 'minute' : 'day')))
                     continue;
 
@@ -1042,12 +1043,23 @@
             var parentOffset = { top: 0, left: 0 },
                 containerTop;
             var parentRightEdge = $(window).width();
+
             if (!this.parentEl.is('body')) {
                 parentOffset = {
                     top: this.parentEl.offset().top - this.parentEl.scrollTop(),
                     left: this.parentEl.offset().left - this.parentEl.scrollLeft()
                 };
                 parentRightEdge = this.parentEl[0].clientWidth + this.parentEl.offset().left;
+            }
+
+            if (this.alwaysOpen) {
+                this.container.css({
+                    top: 0,
+                    right: 'auto',
+                    left: this.element.offset().left - parentOffset.left + this.element.outerWidth() / 2
+                            - this.container.outerWidth() / 2,
+                });
+                return;
             }
 
             if (this.drops == 'up')
@@ -1127,7 +1139,7 @@
         },
 
         hide: function(e) {
-            if (!this.isShowing) return;
+            if (!this.isShowing || this.alwaysOpen) return;
 
             //incomplete date selection, revert to last values
             if (!this.endDate) {
@@ -1530,7 +1542,7 @@
             this.container.find('input[name="daterangepicker_start"], input[name="daterangepicker_end"]').removeClass('active');
             $(e.target).addClass('active');
 
-            // Set the state such that if the user goes back to using a mouse, 
+            // Set the state such that if the user goes back to using a mouse,
             // the calendars are aware we're selecting the end of the range, not
             // the start. This allows someone to edit the end of a date range without
             // re-selecting the beginning, by clicking on the end date input then
