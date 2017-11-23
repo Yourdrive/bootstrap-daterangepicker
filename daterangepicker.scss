@@ -38,7 +38,7 @@ $daterangepicker-active-color:               #fff !default;
 $daterangepicker-active-bg-color:            #652775 !default;
 $daterangepicker-active-border-color:        transparent !default;
 
-$daterangepicker-unselected-color:           #999 !default;
+$daterangepicker-unselected-color:           #dad8d8 !default;
 $daterangepicker-unselected-border-color:    transparent !default;
 $daterangepicker-unselected-bg-color:        #fff !default;
 
@@ -261,6 +261,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     cursor: pointer;
 
     &.available {
+      color: #3e3d3f;
       &:hover {
         background-color: $daterangepicker-cell-hover-bg-color;
         border-color: $daterangepicker-cell-hover-border-color;
@@ -315,9 +316,18 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     }
   }
 
+  thead tr:last-child th, tbody tr:last-child td {
+    border-bottom: 0.5px solid #3e3d3f !important;
+  }
+
+  thead tr:last-child th {
+    font-weight: 500;
+  }
+
   th {
     &.month {
       width: auto;
+      font-weight: 300;
     }
   }
 
@@ -360,13 +370,15 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   // Text Input Controls (above calendar)
   //
   .input-mini {
-    border: $daterangepicker-control-border-size solid $daterangepicker-control-border-color;
+    box-shadow: none;
+    border: 1px solid #dad8d8;
     border-radius: $daterangepicker-control-border-radius;
     color: $daterangepicker-control-color;
-    height: $daterangepicker-control-line-height;
-    line-height: $daterangepicker-control-height;
     display: block;
     vertical-align: middle;
+
+    line-height: 40px;
+    height: 40px;
 
     // TODO: Should these all be static, too??
     margin: 0 0 5px 0;
@@ -387,7 +399,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
 
       // NOTE: These appear to be eyeballed to me...
       left: 8px;
-      top: 8px;
+      top: 13px;
     }
   }
   &.rtl {
