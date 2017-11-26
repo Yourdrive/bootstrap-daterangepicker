@@ -336,9 +336,9 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   //
   td, option {
     &.disabled {
-      color: #999;
+      color: #dad8d8;
+      background-color: #f3f2f2;
       cursor: not-allowed;
-      text-decoration: line-through;
     }
   }
 
