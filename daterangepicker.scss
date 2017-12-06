@@ -110,7 +110,6 @@ $daterangepicker-ranges-active-border-size:   $daterangepicker-ranges-border-siz
 $daterangepicker-ranges-active-border-color:  $daterangepicker-ranges-bg-color !default;
 $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !default;
 
-
 .daterangepicker-always-open {
     .#{$prefix-class} {
         position: relative;
@@ -126,6 +125,14 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
         &.dropdown-menu {
             box-shadow: none;
             border: none;
+        }
+    }
+}
+
+.daterangepicker-external-controls {
+    .#{$prefix-class} {
+        .daterangepicker_input {
+            display: none;
         }
     }
 }
