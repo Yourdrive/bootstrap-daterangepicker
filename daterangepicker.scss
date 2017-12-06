@@ -46,7 +46,7 @@ $daterangepicker-unselected-bg-color:        #fff !default;
 // daterangepicker
 $daterangepicker-width:          278px !default;
 $daterangepicker-padding:        4px !default;
-$daterangepicker-z-index:        3000 !default;
+$daterangepicker-z-index:        100 !default;
 
 $daterangepicker-border-size:    1px !default;
 $daterangepicker-border-color:   #ccc !default;
@@ -110,12 +110,31 @@ $daterangepicker-ranges-active-border-size:   $daterangepicker-ranges-border-siz
 $daterangepicker-ranges-active-border-color:  $daterangepicker-ranges-bg-color !default;
 $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !default;
 
+
+.daterangepicker-always-open {
+    .#{$prefix-class} {
+        position: relative;
+
+        &:before, &:after {
+          position: absolute;
+          display: inline-block;
+
+          border-bottom-color: rgba(0, 0, 0, 0.2);
+          content: none;
+        }
+
+        &.dropdown-menu {
+            box-shadow: none;
+            border: none;
+        }
+    }
+}
+
 //
 // STYLESHEETS
 //
 .#{$prefix-class} {
-  margin-top: -50px;
-  position: relative;
+  position: absolute;
   color: $daterangepicker-color;
   background-color: $daterangepicker-bg-color;
   border-radius: $daterangepicker-border-radius;
@@ -130,12 +149,20 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   $arrow-prefix-size: $arrow-size;
   $arrow-suffix-size: ($arrow-size - $daterangepicker-border-size);
 
-  &:before, &:after {
-    position: absolute;
-    display: inline-block;
+  &:before {
+    top: -$arrow-prefix-size;
 
-    border-bottom-color: rgba(0, 0, 0, 0.2);
-    content: '';
+    border-right: $arrow-prefix-size solid transparent;
+    border-left: $arrow-prefix-size solid transparent;
+    border-bottom: $arrow-prefix-size solid $daterangepicker-border-color;
+  }
+
+  &:after {
+    top: -$arrow-suffix-size;
+
+    border-right: $arrow-suffix-size solid transparent;
+    border-bottom: $arrow-suffix-size solid $daterangepicker-bg-color;
+    border-left: $arrow-suffix-size solid transparent;
   }
 
   &.opensleft {
@@ -200,8 +227,6 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   }
 
   &.dropdown-menu {
-    box-shadow: none;
-    border: none;
     max-width: none;
     z-index: $daterangepicker-dropdown-z-index;
   }
@@ -343,6 +368,10 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   }
 
   select {
+    &.form-control {
+      display: inline;
+      width: auto;
+    }
     &.monthselect, &.yearselect {
       font-size: 12px;
       padding: 1px;
