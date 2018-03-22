@@ -644,3 +644,26 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     }
   }
 }
+
+// Yourdrive custom styles
+.daterangepicker .calendar-time i {
+    display: none;
+}
+
+.daterangepicker .calendar-time {
+    padding-left: 0 !important;
+    text-align: left !important;
+    margin: 5px 0 !important;
+}
+
+.daterangepicker select.ampmselect,
+.daterangepicker select.hourselect,
+.daterangepicker select.minuteselect,
+.daterangepicker select.secondselect {
+    width: 64px !important;
+}
+
+.range_inputs {
+    float: right;
+    margin: 5px 0;
+}

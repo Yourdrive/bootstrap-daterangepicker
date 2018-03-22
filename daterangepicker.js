@@ -31,6 +31,7 @@
     var DateRangePicker = function(element, options, cb) {
 
         //default settings for options
+        this.alwaysOpen = false; // Yourdrive
         this.parentEl = 'body';
         this.element = $(element);
         this.startDate = moment().startOf('day');
@@ -38,7 +39,7 @@
         this.minDate = false;
         this.maxDate = false;
         this.dateLimit = false;
-        this.autoApply = false;
+        this.autoApply = true;
         this.singleDatePicker = false;
         this.showDropdowns = false;
         this.showWeekNumbers = false;
@@ -82,7 +83,6 @@
 
         //some state information
         this.isShowing = false;
-        this.alwaysOpen = true;
         this.leftCalendar = {};
         this.rightCalendar = {};
 
@@ -97,32 +97,34 @@
         //html template for the picker UI
         if (typeof options.template !== 'string' && !(options.template instanceof $))
             options.template = '<div class="daterangepicker dropdown-menu">' +
+              '<div style="clear: both;">' +
                 '<div class="calendar left">' +
                     '<div class="daterangepicker_input">' +
                       '<input class="input-mini form-control" type="text" name="daterangepicker_start" value="" />' +
                       '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                      '<div class="calendar-time">' +
-                        '<div></div>' +
-                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                      '</div>' +
                     '</div>' +
                     '<div class="calendar-table"></div>' +
+                    '<div class="calendar-time">' +
+                      '<i class="fa fa-clock-o glyphicon glyphicon-time" style="float: left; top: 10px;"></i>' +
+                      '<div></div>' +
+                    '</div>' +
                 '</div>' +
                 '<div class="calendar right">' +
                     '<div class="daterangepicker_input">' +
                       '<input class="input-mini form-control" type="text" name="daterangepicker_end" value="" />' +
                       '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
-                      '<div class="calendar-time">' +
-                        '<div></div>' +
-                        '<i class="fa fa-clock-o glyphicon glyphicon-time"></i>' +
-                      '</div>' +
                     '</div>' +
                     '<div class="calendar-table"></div>' +
+                    '<div class="calendar-time">' +
+                      '<i class="fa fa-clock-o glyphicon glyphicon-time" style="float: left; top: 10px;"></i>' +
+                      '<div></div>' +
+                    '</div>' +
                 '</div>' +
+              '</div>' +
                 '<div class="ranges">' +
                     '<div class="range_inputs">' +
-                        '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
-                        '<button class="cancelBtn" type="button"></button>' +
+                        '<button class="applyBtn full-width" style="width: 96px;" disabled="disabled" type="button"></button> ' +
+                        '<button class="cancelBtn hidden" type="button"></button>' +
                     '</div>' +
                 '</div>' +
             '</div>';
@@ -243,6 +245,9 @@
             if (this.singleDatePicker)
                 this.endDate = this.startDate.clone();
         }
+
+        if (typeof options.alwaysOpen === 'boolean')
+            this.alwaysOpen = options.alwaysOpen;
 
         if (typeof options.timePicker === 'boolean')
             this.timePicker = options.timePicker;
@@ -456,7 +461,6 @@
             this.element.val(this.startDate.format(this.locale.format));
             this.element.trigger('change');
         }
-
     };
 
     DateRangePicker.prototype = {
@@ -908,7 +912,7 @@
             // hours
             //
 
-            html = '<select class="hourselect">';
+            html = '<select class="hourselect form-control">';
 
             var start = this.timePicker24Hour ? 0 : 1;
             var end = this.timePicker24Hour ? 23 : 12;
@@ -940,7 +944,7 @@
             // minutes
             //
 
-            html += ': <select class="minuteselect">';
+            html += ': <select class="minuteselect form-control">';
 
             for (var i = 0; i < 60; i += this.timePickerIncrement) {
                 var padded = i < 10 ? '0' + i : i;
@@ -997,7 +1001,7 @@
             //
 
             if (!this.timePicker24Hour) {
-                html += '<select class="ampmselect">';
+                html += '<select class="ampmselect form-control">';
 
                 var am_html = '';
                 var pm_html = '';
@@ -1198,7 +1202,7 @@
         hoverRange: function(e) {
 
             //ignore mouse movements while an above-calendar text input has focus
-            if (this.container.find('input[name=daterangepicker_start]').is(":focus") || this.container.find('input[name=daterangepicker_end]').is(":focus"))
+            if (!this.singleDatePicker && (this.container.find('input[name=daterangepicker_start]').is(":focus") || this.container.find('input[name=daterangepicker_end]').is(":focus")))
                 return;
 
             var label = e.target.getAttribute('data-range-key');
